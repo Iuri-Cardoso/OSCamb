@@ -20,8 +20,4 @@ area_subarea %>%
 #salvando em xls no computador
 write.csv2(amb, file='ongsamb.csv', sep=',', dec='.', row.names=FALSE)
 
-#salvando no github
-usethis::use_git_config(user.name = "Iuri-Cardoso",
-                        user.email = "iuricardoso_@hotmail.com")
-usethis::edit_r_environ()
-GITHUB_PAT= "4bdf697facd3db0e52e3dd6e3afe48b08f9c88bb" 
+
