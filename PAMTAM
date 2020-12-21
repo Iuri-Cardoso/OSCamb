@@ -1,0 +1,175 @@
+library (tidyr)
+library(tidyverse)
+library(ggplot2)
+
+
+#Criando gráficos do MT
+
+MT %>% 
+  mutate(criadores = case_when(`Principal Autor Partido` == "-" ~ "executivo",
+                                TRUE ~ `Principal Autor Partido`)) %>% 
+  group_by(Status, `Principal Autor`, criadores ) %>% 
+  count() %>% 
+  ggplot(aes(x = reorder(criadores, -n), y = n, fill = Status))+
+  geom_col()+
+  scale_y_continuous(breaks = seq(0, 8, by = 1))+
+  labs(title = "Número de projetos aprovados por partido no MT",
+       x ="Partidos",
+       y = "Quantidade")+
+  theme_classic()+
+  scale_fill_brewer(palette="Paired") ->MT1
+  ggsave ("MT1.jpeg", width = 5, height = 3)
+
+ 
+  MT %>% 
+    group_by(Status, `Principal Autor`, `Principal Autor Partido` ) %>% 
+    count() %>% 
+    mutate(criadores = case_when(`Principal Autor Partido` == "-" ~ "executivo (DEM)",
+                                 TRUE ~ `Principal Autor Partido`)) %>% 
+    ggplot(aes(x = reorder(`Principal Autor`, -n ), y = n, fill = criadores))+
+    geom_col()+
+    coord_flip()+
+    labs(title = "N. de PLs por deputado e partido no MT",
+         x ="Deputados",
+         y = "Quantidade")+
+    scale_fill_discrete (name = "Partidos")+
+    scale_fill_brewer (palette = "Paired")+
+    theme_classic()-> MT2
+  ggsave ("MT2.jpeg")
+  
+ 
+  MT %>% 
+    group_by(Classificação, Status) %>% 
+    count() %>% 
+    ggplot(aes(x = reorder(Classificação, -n), y = n, fill = Status))+
+    geom_col()+
+    labs(title = "Número de projetos por tema no MT",
+         x ="Tema",
+         y = "Quantidade")+
+    scale_fill_brewer(palette = "Dark2")+
+    theme_classic()-> MT3
+  ggsave("MT3.jpeg", width = 8, height = 4)
+  
+   
+  #------ Para
+  
+  PA %>% 
+    mutate(criadores = case_when(`Principal Autor Partido` == "-" ~ "executivo",
+                                 TRUE ~ `Principal Autor Partido`)) %>% 
+    group_by(Status, `Principal Autor`, criadores ) %>% 
+    count() %>% 
+    ggplot(aes(x = criadores, y = n, fill = Status))+
+    geom_col()+
+    scale_y_continuous(breaks = seq(0, 8, by = 1))+
+    labs(title = "Número de projetos aprovados por partido no PA",
+         x ="Partidos",
+         y = "Quantidade")+
+    theme_classic()+
+    scale_fill_brewer(palette="Paired") ->PA1
+  ggsave ("PA1.jpeg")
+
+  PA %>% 
+    group_by(Classificação, Status) %>% 
+    count() %>% 
+    ggplot(aes(x = reorder(Classificação, -n), y = n, fill = Status))+
+    geom_col()+
+    labs(title = "Número de projetos por tema no PA",
+         x ="Tema",
+         y = "Quantidade")+
+    scale_fill_brewer(palette = "Dark2")+
+    theme_classic()-> PA3
+  ggsave("PA3.jpeg", width = 8, height = 4)
+  
+ PA %>% 
+    group_by(Status, `Principal Autor`, `Principal Autor Partido` ) %>% 
+    count() %>% 
+    mutate(criadores = case_when(`Principal Autor Partido` == "-" ~ "executivo (MDB)",
+                                 TRUE ~ `Principal Autor Partido`)) %>% 
+    ggplot(aes(x = reorder(`Principal Autor`, -n ), y = n, fill = criadores))+
+    geom_col()+
+    coord_flip()+
+    labs(title = "N. de PLs por deputado e partido no PA",
+         x ="Deputados",
+         y = "Quantidade")+
+    scale_fill_discrete (name = "Partidos")+
+    scale_fill_brewer (palette = "Paired")+
+    theme_classic()-> PA2
+  ggsave ("PA2.jpeg", height = 2)
+
+ PA %>% 
+    group_by(Classificação, Status) %>% 
+    count() %>% 
+    ggplot(aes(x = reorder(Classificação, -n), y = n, fill = Status))+
+    geom_col()+
+    labs(title = "Número de projetos por tema no PA",
+         x ="Tema",
+         y = "Quantidade")+
+    scale_fill_brewer(palette = "Dark2")+
+    theme_classic()+
+    scale_y_continuous(breaks = seq(0, 10, by = 1))-> PA4
+  ggsave("PA4.jpeg", width = 8, height = 4)
+  
+  
+    
+# --------- Amazonas 
+  AM %>% 
+    mutate(criadores = case_when(`Principal Autor Partido` == "-" ~ "executivo",
+                                 TRUE ~ `Principal Autor Partido`)) %>% 
+    group_by(Status, `Principal Autor`, criadores ) %>% 
+    count() %>% 
+    ggplot(aes(x = criadores, y = n, fill = Status))+
+    geom_col()+
+    scale_y_continuous(breaks = seq(0, 8, by = 1))+
+    labs(title = "Número de projetos aprovados por partido no AM",
+         x ="Partidos",
+         y = "Quantidade")+
+    theme_classic()+
+    scale_fill_brewer(palette="Paired") ->AM1
+  ggsave ("AM1.jpeg")  
+  
+  
+
+AM %>% 
+group_by(Status, `Principal Autor`, `Principal Autor Partido` ) %>% 
+  count() %>% 
+  mutate(criadores = case_when(`Principal Autor Partido` == "-" ~ "executivo (PSC)",
+                               TRUE ~ `Principal Autor Partido`)) %>% 
+  ggplot(aes(x = reorder(`Principal Autor`, -n ), y = n, fill = criadores))+
+  geom_col()+
+  coord_flip()+
+  labs(title = "N. de PLs por deputado e partido no AM",
+       x ="Deputados",
+       y = "Quantidade")+
+  scale_fill_discrete (name = "Partidos")+
+  scale_fill_brewer (palette = "Dark2")+
+  theme_classic()-> AM1
+
+ggsave("AM1.jpeg")
+
+
+
+
+AM %>% 
+  group_by(Classificação, Status) %>% 
+  count() %>% 
+  ggplot(aes(x = reorder(Classificação, -n), y = n, fill = Status))+
+  geom_col()+
+  labs(title = "Número de projetos por tema no AM",
+       x ="Tema",
+       y = "Quantidade")+
+  scale_fill_brewer(palette = "Dark2")+
+  theme_classic()-> AM3
+ggsave("AM3.jpeg", width = 8, height = 4)
+
+AM %>% 
+  group_by(Classificação, Status) %>% 
+  count() %>% 
+  ggplot(aes(x = reorder(Classificação, -n), y = n, fill = Status))+
+  geom_col()+
+  labs(title = "Número de projetos por tema no AM",
+       x ="Tema",
+       y = "Quantidade")+
+  scale_fill_brewer(palette = "Dark2")+
+  theme_classic()+
+  scale_y_continuous(breaks = seq(0, 10, by = 1))-> AM2
+ggsave("AM2.jpeg", width = 8, height = 4)
